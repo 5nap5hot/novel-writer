@@ -1,0 +1,180 @@
+# Milestone 1
+
+## Objective
+
+Build a local-only macOS proof of concept with:
+
+- project list
+- binder
+- single-scene editor
+- chapter composite editor
+- autosave
+- persistence across launches
+
+## Must Have
+
+- create project
+- create chapter
+- auto-create first scene
+- create scene
+- select chapter to open composite mode
+- select scene to open single-scene mode
+- dark mode default
+
+## Explicitly Deferred
+
+- CloudKit
+- authentication
+- sync
+- advanced formatting
+- drag and drop
+- advanced find/replace
+
+## Next Up
+
+- Binder footer bar: add a thin toolbar-style strip at the bottom of the binder showing total project word count across all scenes.
+- Editor footer bar: move the current word count into a thin toolbar-style strip at the bottom of the editor showing scene word count, and show selected word count whenever text is selected.
+- Multi-scene/chapter editing flow: when multiple scenes or chapters are selected, support continuous cursor-key navigation and mouse drag selection across scene boundaries so grouped scenes can be copied, selected, and edited as one flowing scope.
+- Find / Replace panel:
+  - find text in the current writing scope
+  - replace the current match
+  - replace the current match and jump to the next one
+  - replace all matches in scope
+  - move to next match
+  - move to previous match
+  - show live counts for total found, current match number, and total replaced
+- Find / Replace search scopes:
+  - current selection
+  - entire project
+  - selected chapter(s)
+  - selected scene(s)
+- Find / Replace search modes:
+  - contains
+  - whole word
+  - starts with
+  - ends with
+- Find / Replace search options:
+  - match case
+  - ignore case
+  - ignore diacritics
+- Find / Replace behavior:
+  - `Cmd/Ctrl + F` should open the panel
+  - if text is selected when opened, use the selected text as the initial query
+  - highlight all results in the editor
+  - highlight the active match distinctly
+  - next/previous navigation should scroll the relevant scene into view and focus the exact match
+  - debounce search updates slightly as the query changes
+  - the panel itself should be draggable
+- Project/composite support:
+  - search across multiple scenes
+  - in composite/editor workflows, search the selected scenes or full project depending on scope
+  - replace operations must apply inside the actual editor content, not plain-text copies
+- Browser reference sources for parity:
+  - `FindReplacePanel.tsx`
+  - `searchUtils.ts`
+  - `EditorShell.tsx`
+- Export system:
+  - export formats and layouts that match the requirements of major ebook, paperback, and hardcover publishing services such as Amazon KDP
+  - support manuscript/package presets for different publishing targets rather than one generic export
+- Backup system:
+  - support manual local backup/export of the project data if needed
+  - keep this separate from autosave so the user can create explicit backup copies
+- DOCX export:
+  - export `.docx` in a way that is compatible with Scrivener-style workflows
+  - preserve enough structure and formatting to move a manuscript cleanly into downstream editing/publishing tools
+- DOCX import:
+  - import `.docx` files
+  - detect structural cues that may indicate chapter, episode, or scene boundaries
+  - split imported content into native project/chapter/scene structure when those cues are found
+  - fall back gracefully when the source document has weak or inconsistent structure
+- Color scheme modifications: restyle the native app to match the browser `global.css` source direction using a warm literary parchment-and-ink palette, with no cold blues or purple accents.
+- Typography pass: use `"Avenir Next", "Segoe UI", sans-serif` for interface text and `"Iowan Old Style", "Palatino Linotype", serif` for display/editor titles.
+- Light theme palette:
+  - `paper-1: #fffbf5`
+  - `paper-2: #fffaf4`
+  - `paper-3: #fbf6ee`
+  - `ink-1: #1d1b18`
+  - `ink-2: #3d2c1c`
+  - `ink-3: #5f4e40`
+  - `muted-1: #7d5c45`
+  - `muted-2: #6f5442`
+  - `accent: #9e4f2d`
+  - `accent-strong: #7b3f25`
+  - `accent-soft: #e2c3aa`
+  - `selection-light: rgba(226, 195, 170, 0.96)`
+- Dark theme palette:
+  - `dark-bg-1: #271e19`
+  - `dark-bg-2: #30251f`
+  - `dark-bg-3: #221b17`
+  - `dark-ink-1: #f8efe4`
+  - `dark-ink-2: #f4eadc`
+  - `dark-ink-3: #c9b4a1`
+  - `dark-muted: #ccb8a6`
+  - `dark-accent: #ce7b43`
+  - `dark-selection: rgba(122, 97, 79, 0.82)`
+- Styling usage targets:
+  - primary buttons should use `accent` with light text `#fff9f0`
+  - panels and cards should feel like warm translucent paper in light mode and deep espresso panels in dark mode
+  - metadata and secondary labels should use `muted-1` in light mode and `dark-ink-3` in dark mode
+  - selected binder rows should use `selection-light` in light mode and `dark-selection` in dark mode
+  - project cards should use a cream-to-tan gradient in light mode and an espresso gradient in dark mode
+- Visual direction: dark mode should feel like candlelit paper rather than neon-on-black.
+- Assistant drawer behavior:
+  - the assistant should collapse into a right-edge drawer handle instead of disappearing completely
+  - collapsing the drawer should give the editor its width back immediately
+  - clicking the handle should reopen the assistant to its last remembered width
+  - preserve the current conversation and state when the drawer is collapsed and reopened
+- Scene editing position persistence:
+  - each scene should remember the last caret position and editing location from session to session
+  - when a scene is opened, the editor should automatically place focus and the flashing caret at the last edited location
+  - opening a scene should not require an extra click just to move focus into the editor before typing
+- Novel-wide genre and structural guidance:
+  - allow the project to define what genre the novel is, such as thriller, romance, mystery, literary, or custom
+  - use that genre metadata as assistant context so scene and chapter reviews can judge pacing, arc, tension, and flow against the intended form
+  - support project-level expectations for things like suspense, chapter momentum, scene purpose, and tonal consistency
+  - let the assistant call out when a chapter or scene is not functioning like the declared genre, for example when a thriller chapter loses tension or momentum
+- Podcast mode and episode-prep workflow:
+  - allow a project to be marked as a podcast project
+  - when podcast mode is on, chapter labeling should become episode labeling
+  - expose a chapter/episode drawer for podcast prep content
+  - support project-level podcast setup fields:
+    - podcast title
+    - default host / voice
+    - website URL
+    - podcast platform URLs
+    - newsletter URL
+    - reusable CTA text
+  - generate episode-prep content from the current chapter/episode scope:
+    - intro
+    - outro
+    - podcast summary
+    - cover-art / image prompt
+    - social posts
+  - support voice selection for generated intro and outro, including Mike Carmel or a featured character voice
+  - write intros as spoiler-safe TV-guide-style setup copy mentioning the podcast title plus episode number/title
+  - write outros with episode reflection, CTA, and platform-appropriate signoff
+  - generate a podcast description suitable for posting/show notes
+  - generate a scene description for cover art and downstream AI image/video prompt use
+  - generate platform-specific social posts for:
+    - Facebook
+    - Tumblr
+    - Instagram
+    - Pinterest
+    - Reddit
+    - X
+  - keep all weekly posting materials in one place under the episode drawer
+  - next podcast polish:
+    - per-section regenerate buttons
+    - copy/export helpers for each generated section
+    - stronger voice-selection UX
+    - drawer should open from the binder/editor seam rather than the far right
+    - `Generate Missing Only` for weekly episode workflows
+    - export the full episode pack as plain text
+    - apply sensible default intro/outro voices from host or character setup
+    - auto-generate an episode title suggestion, place it in an editable episode-name field, and reuse that exact episode name in intro/outro generation
+    - intro generation should default to spoiler-safe framing and avoid preview-copy that over-explains episode events unless explicitly asked
+    - outro generation should include season / episode / episode title more consistently and prefer generic platform mentions over long raw URL lists
+    - rename `Podcast Summary` to `Episode Summary` or a similarly clearer posting-oriented label
+    - tighten summary generation so it stays grounded in explicit episode facts instead of inventing details or overstating mystery/foreshadowing
+    - after choosing a cover-art moment, the assistant should re-check the episode text for factual accuracy before finalizing the prompt
+    - style guide should support character visual descriptions for image-generation and cover-art prompt work
